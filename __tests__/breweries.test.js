@@ -77,4 +77,71 @@ describe('brewery routes', () => {
         });
       });
   });
+
+  it('can get a brewery by Id', async() => {
+    const brewery = await Brewery.create({
+      name: 'beer',
+      type: 'beer place',
+      address: 'place of beer',
+      state: 'legal beer state'
+    });
+
+    return request(app)
+      .get(`/api/v1/breweries/${brewery._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: brewery.id,
+          name: 'beer',
+          type: 'beer place',
+          address: 'place of beer',
+          state: 'legal beer state',
+          __v: 0
+        });
+      });
+  });
+
+  it('can patch a brewery by id', async() => {
+    const brewery = await Brewery.create({
+      name: 'beer',
+      type: 'beer place',
+      address: 'place of beer',
+      state: 'legal beer state'
+    });
+
+    return request(app)
+      .patch(`/api/v1/breweries/${brewery._id}`)
+      .send({ name: 'ale' })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: brewery.id,
+          name: 'ale',
+          type: 'beer place',
+          address: 'place of beer',
+          state: 'legal beer state',
+          __v: 0
+        });
+      });
+  });
+
+  it('can delete a brewery by id', async() => {
+    const brewery = await Brewery.create({
+      name: 'beer',
+      type: 'beer place',
+      address: 'place of beer',
+      state: 'legal beer state'
+    });
+
+    return request(app)
+      .delete(`/api/v1/breweries/${brewery._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: brewery.id,
+          name: 'beer',
+          type: 'beer place',
+          address: 'place of beer',
+          state: 'legal beer state',
+          __v: 0
+        });
+      });
+  });
 });
